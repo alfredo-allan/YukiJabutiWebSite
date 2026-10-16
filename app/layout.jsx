@@ -2,6 +2,7 @@ import { Baloo_2 } from "next/font/google";
 import "./globals.css";
 import ThemeProvider from "@/components/ThemeProvider";
 import JabutiProvider from "@/components/JabutiProvider";
+import { ConfirmacaoProvider } from "@/components/Confirmacao";
 import Cabecalho from "@/components/Cabecalho";
 
 const baloo = Baloo_2({ subsets: ["latin"], weight: ["400", "600", "700", "800"], variable: "--font-baloo" });
@@ -21,8 +22,10 @@ export default function RootLayout({ children }) {
       <body suppressHydrationWarning>
         <ThemeProvider>
           <JabutiProvider>
-            <Cabecalho />
-            {children}
+            <ConfirmacaoProvider>
+              <Cabecalho />
+              {children}
+            </ConfirmacaoProvider>
           </JabutiProvider>
         </ThemeProvider>
       </body>

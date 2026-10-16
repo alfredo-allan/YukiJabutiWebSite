@@ -7,6 +7,8 @@ import { useTema } from "@/components/ThemeProvider";
 import PrecisaJabuti from "@/components/PrecisaJabuti";
 import EspecieEscolha from "@/components/EspecieEscolha";
 import SoEditora from "@/components/SoEditora";
+import CampoData from "@/components/CampoData";
+import { useConfirmacao, useAviso } from "@/components/Confirmacao";
 import { hoje } from "@/lib/datas";
 
 const SEXOS = [["femea", "Fêmea"], ["macho", "Macho"], ["nao-sei", "Ainda não sei"]];
@@ -41,6 +43,8 @@ function TrocarSenha() {
 function Ajustes() {
   const { atual, atualizar, apagar: apagarJabuti } = useJabuti();
   const { tema, alternar } = useTema();
+  const confirmar = useConfirmacao();
+  const avisar = useAviso();
   const router = useRouter();
   const [f, setF] = useState(null);
   const [msg, setMsg] = useState("");
@@ -62,9 +66,15 @@ function Ajustes() {
   }
 
   async function apagar() {
-    if (!confirm(`Apagar ${atual.nome} e todo o diário? Isso não tem volta.`)) return;
+    const ok = await confirmar({
+      titulo: `Apagar ${atual.nome}?`,
+      texto: "Isso apaga o jabuti e todo o diário. Não tem como voltar atrás.",
+      textoConfirmar: "Apagar tudo",
+      textoCancelar: "Manter",
+    });
+    if (!ok) return;
     try { await apagarJabuti(atual.id); router.push("/"); }
-    catch (er) { setErro(er.message); }
+    catch (er) { avisar({ titulo: "Não consegui apagar", texto: er.message }); }
   }
 
   return (
@@ -103,8 +113,14 @@ function Ajustes() {
         </div>
 
         <div className="grid gap-4 sm:grid-cols-3">
-          <label className="rotulo">Nascimento<input className="campo mt-2" type="date" max={hoje()} value={f.nascimento} onChange={(e) => set("nascimento", e.target.value)} /></label>
-          <label className="rotulo">Chegou em casa<input className="campo mt-2" type="date" max={hoje()} value={f.chegada} onChange={(e) => set("chegada", e.target.value)} /></label>
+          <div>
+            <p className="rotulo">Nascimento</p>
+            <CampoData valor={f.nascimento} max={hoje()} aoMudar={(v) => set("nascimento", v)} />
+          </div>
+          <div>
+            <p className="rotulo">Chegou em casa</p>
+            <CampoData valor={f.chegada} max={hoje()} aoMudar={(v) => set("chegada", v)} />
+          </div>
           <label className="rotulo">Microchip<input className="campo mt-2" value={f.microchip} onChange={(e) => set("microchip", e.target.value)} maxLength={40} placeholder="Número" /></label>
         </div>
 

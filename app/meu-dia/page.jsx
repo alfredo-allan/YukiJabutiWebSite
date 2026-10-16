@@ -6,6 +6,7 @@ import { useJabuti } from "@/components/JabutiProvider";
 import PrecisaJabuti from "@/components/PrecisaJabuti";
 import SoEditora from "@/components/SoEditora";
 import Tortoise from "@/components/Tortoise";
+import { useConfirmacao, useAviso } from "@/components/Confirmacao";
 import { festa } from "@/lib/festa";
 import { dataBR, hoje } from "@/lib/datas";
 
@@ -24,6 +25,8 @@ function saudacao() {
 
 function MeuDia() {
   const { atual, registrar, apagarRegistro, editora } = useJabuti();
+  const confirmar = useConfirmacao();
+  const avisar = useAviso();
   const raiz = useRef(null);
   const [form, setForm] = useState(VAZIO);
   const [msg, setMsg] = useState("");
@@ -136,7 +139,10 @@ function MeuDia() {
                 {r.observacao && <p className="text-tinta/75">“{r.observacao}”</p>}
               </div>
               {editora && (
-                <button onClick={() => confirm("Apagar este dia?") && apagarRegistro(r.id)} aria-label="Apagar este dia" className="grid h-11 w-11 shrink-0 place-items-center rounded-full text-tinta/50 hover:bg-brasa/15 hover:text-brasa">
+                <button onClick={async () => {
+                  if (!await confirmar({ titulo: "Apagar este dia?", texto: "O recado e as tarefas desse dia vão sumir.", textoConfirmar: "Apagar", textoCancelar: "Manter" })) return;
+                  try { await apagarRegistro(r.id); } catch (er) { avisar({ titulo: "Não consegui apagar", texto: er.message }); }
+                }} aria-label="Apagar este dia" className="grid h-11 w-11 shrink-0 place-items-center rounded-full text-tinta/50 hover:bg-brasa/15 hover:text-brasa">
                   <Trash2 />
                 </button>
               )}

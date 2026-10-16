@@ -6,6 +6,7 @@ import { useJabuti } from "@/components/JabutiProvider";
 import PrecisaJabuti from "@/components/PrecisaJabuti";
 import SoEditora from "@/components/SoEditora";
 import GrowthChart from "@/components/GrowthChart";
+import CampoData from "@/components/CampoData";
 import { festa } from "@/lib/festa";
 import { dataBR, hoje, num } from "@/lib/datas";
 
@@ -95,9 +96,10 @@ function Crescimento() {
           <label className="rotulo">Casco (cm)
             <input className="campo mt-2" type="number" inputMode="decimal" min="0" step="0.1" value={form.comprimento_cm} onChange={(e) => setForm({ ...form, comprimento_cm: e.target.value })} placeholder="ex: 7,5" />
           </label>
-          <label className="rotulo">Dia
-            <input className="campo mt-2" type="date" max={hoje()} value={form.data} onChange={(e) => setForm({ ...form, data: e.target.value })} />
-          </label>
+          <div>
+            <p className="rotulo">Dia</p>
+            <CampoData valor={form.data} max={hoje()} aoMudar={(v) => setForm({ ...form, data: v })} />
+          </div>
         </div>
         {erro && <p role="alert" className="mt-3 font-bold text-brasa">{erro}</p>}
         <button className="botao mt-5 w-full text-xl"><Save /> Guardar medida</button>
