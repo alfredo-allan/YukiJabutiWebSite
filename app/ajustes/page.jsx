@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Save, Moon, Sun, Trash2 } from "lucide-react";
+import { Save, Moon, Sun, Trash2, KeyRound } from "lucide-react";
 import { useJabuti } from "@/components/JabutiProvider";
 import { useTema } from "@/components/ThemeProvider";
 import PrecisaJabuti from "@/components/PrecisaJabuti";
@@ -10,6 +10,33 @@ import SoEditora from "@/components/SoEditora";
 import { hoje } from "@/lib/datas";
 
 const SEXOS = [["femea", "Fêmea"], ["macho", "Macho"], ["nao-sei", "Ainda não sei"]];
+
+// Trocar a senha desloga os outros aparelhos (este continua dentro)
+function TrocarSenha() {
+  const { trocarSenha } = useJabuti();
+  const [senha, setSenha] = useState("");
+  const [msg, setMsg] = useState("");
+  const [erro, setErro] = useState("");
+
+  async function salvar(e) {
+    e.preventDefault();
+    setErro(""); setMsg("");
+    try { await trocarSenha(senha); setSenha(""); setMsg("Senha trocada! Os outros aparelhos vão precisar da senha nova."); }
+    catch (er) { setErro(er.message); }
+  }
+
+  return (
+    <form onSubmit={salvar} className="mt-14 rounded-blob bg-cartao p-5">
+      <h2 className="flex items-center gap-2 text-2xl font-extrabold"><KeyRound /> Trocar senha</h2>
+      <label className="rotulo mt-4">Senha nova
+        <input className="campo mt-2" type="password" autoComplete="new-password" minLength={4} value={senha} onChange={(e) => setSenha(e.target.value)} required />
+      </label>
+      {erro && <p role="alert" className="mt-3 font-bold text-brasa">{erro}</p>}
+      {msg && <p className="mt-3 font-bold text-folha">{msg}</p>}
+      <button className="botao-sec mt-4">Salvar senha nova</button>
+    </form>
+  );
+}
 
 function Ajustes() {
   const { atual, atualizar, apagar: apagarJabuti } = useJabuti();
@@ -85,6 +112,8 @@ function Ajustes() {
         {msg && <p className="rounded-2xl bg-folha p-4 text-xl font-extrabold text-white">{msg}</p>}
         <button className="botao w-full text-xl"><Save /> Salvar dados</button>
       </form>
+
+      <TrocarSenha />
 
       <section className="mt-14 rounded-blob border-4 border-brasa/30 p-5">
         <p className="text-lg font-bold">Área do adulto</p>
