@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Paleta da Yuki: capim, casco âmbar, terra, escamas vermelhas (brasa) */
+:root {
+  --fundo: 234 245 226;
+  --tinta: 40 48 30;
+  --folha: 62 140 48;
+  --casco: 226 166 46;
+  --terra: 110 68 38;
+  --ceu: 196 230 242;
+  --cartao: 255 255 255;
+  --brasa: 214 72 43;
+  --agua: 56 150 200;
+  color-scheme: light;
+}
+.dark {
+  --fundo: 17 36 26;
+  --tinta: 236 240 214;
+  --folha: 128 200 90;
+  --casco: 240 186 74;
+  --terra: 200 146 102;
+  --ceu: 36 66 86;
+  --cartao: 29 54 39;
+  --brasa: 245 112 82;
+  --agua: 110 190 235;
+  color-scheme: dark;
+}
+
+body { @apply bg-fundo text-tinta font-sans antialiased; }
+:focus-visible { outline: 4px solid rgb(var(--casco)); outline-offset: 3px; border-radius: 14px; }
+
+@layer components {
+  .botao {
+    @apply inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full bg-folha px-6 py-3 text-lg font-bold text-white
+           shadow-[0_5px_0_rgb(var(--terra))] transition-transform active:translate-y-1 active:shadow-[0_1px_0_rgb(var(--terra))]
+           disabled:opacity-50;
+  }
+  .botao-sec {
+    @apply botao bg-cartao text-tinta shadow-[0_5px_0_rgb(var(--tinta)/0.2)];
+  }
+  .campo {
+    @apply w-full rounded-2xl border-4 border-folha/30 bg-cartao px-4 py-3 text-xl font-semibold text-tinta
+           placeholder:text-tinta/40 focus:border-casco focus:outline-none;
+  }
+  .rotulo { @apply block text-lg font-bold; }
+  .titulo-pagina { @apply text-4xl font-extrabold leading-tight sm:text-5xl; }
+}
+
+.virar { perspective: 1400px; }
+.face { backface-visibility: hidden; -webkit-backface-visibility: hidden; grid-area: 1 / 1; }
