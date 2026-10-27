@@ -124,10 +124,10 @@ function MeuDia() {
           <p className="rotulo">Mídia do dia <span className="font-semibold text-tinta/55">(opcional)</span></p>
           {form.foto ? (
             <div className="mt-3 flex items-start gap-3">
-              <Midia src={form.foto} tipo={form.tipo_foto} alt="Prévia da mídia do dia" className="h-28 w-28 rounded-2xl border-4 border-casco object-cover" />
-              <button type="button" onClick={() => setForm({ ...form, foto: null, tipo_foto: null })} className="botao-sec min-h-11 px-4 py-2 text-base"><X size={20} /> Tirar mídia</button>
+              <Midia src={form.foto} tipo={form.foto_tipo} alt="Prévia da mídia do dia" className="h-28 w-28 rounded-2xl border-4 border-casco object-cover" />
+              <button type="button" onClick={() => setForm({ ...form, foto: null, foto_tipo: null })} className="botao-sec min-h-11 px-4 py-2 text-base"><X size={20} /> Tirar mídia</button>
             </div>
-          ) : <FotoInput className="mt-3" aoEscolher={(midia) => setForm((f) => ({ ...f, foto: midia.src, tipo_foto: midia.tipo }))} texto="Adicionar foto ou vídeo do dia" />}
+          ) : <FotoInput className="mt-3" aoEscolher={(midia) => setForm((f) => ({ ...f, foto: midia.src, foto_tipo: midia.tipo }))} texto="Adicionar foto ou vídeo do dia" />}
         </div>
 
         {erro && <p role="alert" className="mt-4 font-bold text-brasa">{erro}</p>}
@@ -149,7 +149,7 @@ function MeuDia() {
                   {r.peso_g != null && <span>⚖️ {r.peso_g} g</span>}{r.comprimento_cm != null && <span>📏 {r.comprimento_cm} cm</span>}
                 </p>
                 {r.observacao && <p className="text-tinta/75">“{r.observacao}”</p>}
-                {r.foto && <Midia src={r.foto} tipo={r.tipo_foto} alt={`Mídia de ${atual.nome} em ${dataBR(r.data)}`} className="mt-3 h-32 w-32 rounded-2xl border-4 border-casco object-cover" />}
+                {r.foto && <Midia src={r.foto} tipo={r.foto_tipo} alt={`Mídia de ${atual.nome} em ${dataBR(r.data)}`} className="mt-3 h-32 w-32 rounded-2xl border-4 border-casco object-cover" />}
               </div>
               {editora && (
                 <button onClick={async () => {

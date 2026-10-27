@@ -1,5 +1,5 @@
 function tipoDaMidia(midia, tipo) {
-  if (tipo === "video" || midia?.startsWith("data:video/")) return "video";
+  if (tipo === "video" || tipo?.startsWith("video/") || midia?.startsWith("data:video/")) return "video";
   return "imagem";
 }
 
