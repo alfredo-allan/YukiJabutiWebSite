@@ -121,7 +121,7 @@ function Carteirinha() {
       <div className="mt-8 flex flex-wrap gap-3">
         <button className="botao-sec" onClick={virar}><RotateCw /> Virar</button>
         <SoEditora aviso={false}>
-          <FotoInput aoEscolher={novaFoto} texto={atual.foto ? "Atualizar foto" : "Colocar foto"} />
+          <FotoInput aoEscolher={novaFoto} somenteFoto texto={atual.foto ? "Atualizar foto" : "Colocar foto"} />
           <Link href="/ajustes" className="botao-sec"><Pencil /> Editar dados</Link>
         </SoEditora>
       </div>

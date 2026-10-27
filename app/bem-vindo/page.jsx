@@ -86,7 +86,7 @@ function Passos() {
             <div className="mx-auto mt-6 grid aspect-square w-60 place-items-center overflow-hidden rounded-[2.5rem] border-8 border-casco bg-ceu">
               {dados.foto ? <img src={dados.foto} alt="Foto escolhida" className="h-full w-full object-cover" /> : <Tortoise especie={dados.especie} id="bvf" className="w-4/5" />}
             </div>
-            <FotoInput className="mt-6 text-center" aoEscolher={(f) => set("foto", f)} texto={dados.foto ? "Trocar foto" : "Tirar ou escolher foto"} />
+            <FotoInput className="mt-6 text-center" aoEscolher={(f) => set("foto", f)} somenteFoto texto={dados.foto ? "Trocar foto" : "Tirar ou escolher foto"} />
           </>
         )}
       </div>

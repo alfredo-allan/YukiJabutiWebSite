@@ -10,6 +10,7 @@ import { useConfirmacao, useAviso } from "@/components/Confirmacao";
 import { festa } from "@/lib/festa";
 import { dataBR, hoje } from "@/lib/datas";
 import FotoInput from "@/components/FotoInput";
+import Midia from "@/components/Midia";
 
 const TAREFAS = [
   { k: "comeu", Icone: Salad, titulo: "Comeu", cor: "bg-folha" },
@@ -120,13 +121,13 @@ function MeuDia() {
         </label>
 
         <div className="mt-8">
-          <p className="rotulo">Foto do dia <span className="font-semibold text-tinta/55">(opcional)</span></p>
+          <p className="rotulo">Mídia do dia <span className="font-semibold text-tinta/55">(opcional)</span></p>
           {form.foto ? (
             <div className="mt-3 flex items-start gap-3">
-              <img src={form.foto} alt="Prévia da foto do dia" className="h-28 w-28 rounded-2xl border-4 border-casco object-cover" />
-              <button type="button" onClick={() => setForm({ ...form, foto: null })} className="botao-sec min-h-11 px-4 py-2 text-base"><X size={20} /> Tirar foto</button>
+              <Midia src={form.foto} tipo={form.tipo_foto} alt="Prévia da mídia do dia" className="h-28 w-28 rounded-2xl border-4 border-casco object-cover" />
+              <button type="button" onClick={() => setForm({ ...form, foto: null, tipo_foto: null })} className="botao-sec min-h-11 px-4 py-2 text-base"><X size={20} /> Tirar mídia</button>
             </div>
-          ) : <FotoInput className="mt-3" aoEscolher={(foto) => setForm((f) => ({ ...f, foto }))} texto="Adicionar foto do dia" />}
+          ) : <FotoInput className="mt-3" aoEscolher={(midia) => setForm((f) => ({ ...f, foto: midia.src, tipo_foto: midia.tipo }))} texto="Adicionar foto ou vídeo do dia" />}
         </div>
 
         {erro && <p role="alert" className="mt-4 font-bold text-brasa">{erro}</p>}
@@ -148,7 +149,7 @@ function MeuDia() {
                   {r.peso_g != null && <span>⚖️ {r.peso_g} g</span>}{r.comprimento_cm != null && <span>📏 {r.comprimento_cm} cm</span>}
                 </p>
                 {r.observacao && <p className="text-tinta/75">“{r.observacao}”</p>}
-                {r.foto && <img src={r.foto} alt={`Foto de ${atual.nome} em ${dataBR(r.data)}`} className="mt-3 h-32 w-32 rounded-2xl border-4 border-casco object-cover" />}
+                {r.foto && <Midia src={r.foto} tipo={r.tipo_foto} alt={`Mídia de ${atual.nome} em ${dataBR(r.data)}`} className="mt-3 h-32 w-32 rounded-2xl border-4 border-casco object-cover" />}
               </div>
               {editora && (
                 <button onClick={async () => {

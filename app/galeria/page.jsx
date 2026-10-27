@@ -8,12 +8,13 @@ import SoEditora from "@/components/SoEditora";
 import FotoInput from "@/components/FotoInput";
 import { useConfirmacao, useAviso } from "@/components/Confirmacao";
 import { dataBR, hoje } from "@/lib/datas";
+import Midia from "@/components/Midia";
 
 function Galeria() {
   const { atual, erro: erroProvider, editora, adicionarFoto, apagarFoto } = useJabuti();
   const confirmar = useConfirmacao();
   const avisar = useAviso();
-  const [foto, setFoto] = useState(null);
+  const [midia, setMidia] = useState(null);
   const [legenda, setLegenda] = useState("");
   const [data, setData] = useState(hoje());
   const [enviando, setEnviando] = useState(false);
@@ -25,14 +26,14 @@ function Galeria() {
 
   async function enviar(e) {
     e.preventDefault();
-    if (!foto) return;
+    if (!midia) return;
     setEnviando(true);
     try {
-      await adicionarFoto({ foto, legenda: legenda.trim() || undefined, data: data || undefined });
-      setFoto(null);
+      await adicionarFoto({ foto: midia.src, tipo: midia.tipo, legenda: legenda.trim() || undefined, data: data || undefined });
+      setMidia(null);
       setLegenda("");
       setData(hoje());
-      await avisar({ titulo: "Foto guardada!", texto: "A lembrança já está na galeria.", perigo: false });
+      await avisar({ titulo: "Lembrança guardada!", texto: "A mídia já está na galeria.", perigo: false });
     } catch (er) {
       avisar({ titulo: "Não consegui guardar a foto", texto: er.message });
     } finally {
@@ -59,12 +60,12 @@ function Galeria() {
         </div>
       </div>
 
-      <SoEditora aviso={`Só a tutora adiciona fotos de ${atual.nome}.`}>
+      <SoEditora aviso={`Só a tutora adiciona mídias de ${atual.nome}.`}>
         <form onSubmit={enviar} className="mt-8 rounded-blob bg-cartao p-5">
           <h2 className="text-2xl font-extrabold">Guardar uma lembrança</h2>
-          {foto ? (
+          {midia ? (
             <div className="mt-4 flex flex-wrap items-start gap-4">
-              <img src={foto} alt="Prévia da nova foto" className="h-40 w-40 rounded-2xl border-4 border-casco object-cover" />
+              <Midia src={midia.src} tipo={midia.tipo} alt="Prévia da nova mídia" className="h-40 w-40 rounded-2xl border-4 border-casco object-cover" />
               <div className="min-w-[220px] flex-1">
                 <label className="rotulo">Legenda <span className="font-semibold text-tinta/55">(opcional)</span>
                   <input className="campo mt-2" value={legenda} onChange={(e) => setLegenda(e.target.value)} maxLength={160} placeholder="Primeiro banho de sol" />
@@ -75,7 +76,7 @@ function Galeria() {
                 <button className="botao mt-4 w-full" disabled={enviando}><Upload size={23} /> {enviando ? "Guardando…" : "Guardar na galeria"}</button>
               </div>
             </div>
-          ) : <FotoInput className="mt-4" aoEscolher={setFoto} texto="Escolher uma foto" />}
+          ) : <FotoInput className="mt-4" aoEscolher={setMidia} />}
         </form>
       </SoEditora>
 
@@ -83,7 +84,7 @@ function Galeria() {
         <section className="mt-10 rounded-blob border-4 border-dashed border-terra/35 p-8 text-center">
           <Images className="mx-auto text-terra" size={54} />
           <h2 className="mt-3 text-2xl font-extrabold">A galeria ainda está vazia</h2>
-          <p className="mt-1 text-lg">As fotos do dia também aparecem aqui.</p>
+          <p className="mt-1 text-lg">As mídias do dia também aparecem aqui.</p>
         </section>
       ) : (
         <section className="mt-10">
@@ -91,11 +92,11 @@ function Galeria() {
           <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
             {fotos.map((f) => (
               <article key={f.id} className="overflow-hidden rounded-blob bg-cartao shadow-sm">
-                <img src={f.foto} alt={f.legenda || `Foto de ${atual.nome}`} className="aspect-square w-full object-cover" />
+                <Midia src={f.foto || f.media} tipo={f.tipo} alt={f.legenda || `Mídia de ${atual.nome}`} className="aspect-square w-full object-cover" />
                 <div className="p-3">
                   {f.legenda && <p className="text-lg font-bold leading-tight">{f.legenda}</p>}
                   {f.data && <p className="mt-1 text-sm font-semibold text-tinta/60">{dataBR(f.data, { day: "numeric", month: "long", year: "numeric" })}</p>}
-                  {editora && <button onClick={() => apagar(f)} aria-label={`Apagar ${f.legenda || "foto"}`} className="mt-2 flex items-center gap-1 rounded-full px-2 py-1 font-bold text-brasa hover:bg-brasa/15"><Trash2 size={18} /> Apagar</button>}
+                  {editora && <button onClick={() => apagar(f)} aria-label={`Apagar ${f.legenda || "lembrança"}`} className="mt-2 flex items-center gap-1 rounded-full px-2 py-1 font-bold text-brasa hover:bg-brasa/15"><Trash2 size={18} /> Apagar</button>}
                 </div>
               </article>
             ))}
