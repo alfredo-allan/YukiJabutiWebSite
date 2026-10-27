@@ -66,6 +66,7 @@ export default function JabutiProvider({ children }) {
     registrar: comSessao(async (dados) => { const r = await api.registrar(atual.id, dados); await recarregar(atual.id); return r; }),
     apagarRegistro: comSessao(async (rid) => { await api.apagarRegistro(rid); await recarregar(atual.id); }),
     adicionarFoto: comSessao(async (dados) => { const r = await api.adicionarFoto(atual.id, dados); await recarregar(atual.id); return r; }),
+    adicionarFotoComProgresso: comSessao(async (dados, opcoes) => { const r = await api.adicionarFotoComProgresso(atual.id, dados, opcoes); await recarregar(atual.id); return r; }),
     editarFoto: comSessao(async (fid, dados) => { const r = await api.editarFoto(fid, dados); await recarregar(atual.id); return r; }),
     apagarFoto: comSessao(async (fid) => { await api.apagarFoto(fid); await recarregar(atual.id); }),
     criar: comSessao((dados) => api.criar(dados)),
