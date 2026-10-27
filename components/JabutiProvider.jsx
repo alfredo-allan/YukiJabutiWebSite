@@ -13,10 +13,11 @@ export default function JabutiProvider({ children }) {
   const [erro, setErro] = useState("");
 
   const abrir = useCallback(async (id) => {
-    const j = await api.ver(id);
-    setAtual(j);
+    const [j, fotos] = await Promise.all([api.ver(id), api.fotos(id)]);
+    const completo = { ...j, fotos };
+    setAtual(completo);
     try { localStorage.setItem(CHAVE, String(id)); } catch {}
-    return j;
+    return completo;
   }, []);
 
   const recarregar = useCallback(async (preferido) => {

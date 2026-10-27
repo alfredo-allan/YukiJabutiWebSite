@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CalendarDays, Images, Trash2, Upload } from "lucide-react";
 import { useJabuti } from "@/components/JabutiProvider";
 import PrecisaJabuti from "@/components/PrecisaJabuti";
@@ -10,7 +10,7 @@ import { useConfirmacao, useAviso } from "@/components/Confirmacao";
 import { dataBR, hoje } from "@/lib/datas";
 
 function Galeria() {
-  const { atual, editora, adicionarFoto, apagarFoto } = useJabuti();
+  const { atual, erro: erroProvider, editora, adicionarFoto, apagarFoto } = useJabuti();
   const confirmar = useConfirmacao();
   const avisar = useAviso();
   const [foto, setFoto] = useState(null);
@@ -18,6 +18,10 @@ function Galeria() {
   const [data, setData] = useState(hoje());
   const [enviando, setEnviando] = useState(false);
   const fotos = atual.fotos || [];
+
+  useEffect(() => {
+    if (erroProvider) avisar({ titulo: "Não consegui carregar a galeria", texto: erroProvider });
+  }, [erroProvider, avisar]);
 
   async function enviar(e) {
     e.preventDefault();
@@ -28,6 +32,7 @@ function Galeria() {
       setFoto(null);
       setLegenda("");
       setData(hoje());
+      await avisar({ titulo: "Foto guardada!", texto: "A lembrança já está na galeria.", perigo: false });
     } catch (er) {
       avisar({ titulo: "Não consegui guardar a foto", texto: er.message });
     } finally {
@@ -37,7 +42,10 @@ function Galeria() {
 
   async function apagar(f) {
     if (!await confirmar({ titulo: "Apagar esta foto?", texto: "Essa lembrança vai sair da galeria.", textoConfirmar: "Apagar", textoCancelar: "Manter" })) return;
-    try { await apagarFoto(f.id); }
+    try {
+      await apagarFoto(f.id);
+      await avisar({ titulo: "Foto apagada", texto: "A lembrança foi removida da galeria.", perigo: false });
+    }
     catch (er) { avisar({ titulo: "Não consegui apagar", texto: er.message }); }
   }
 
