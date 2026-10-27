@@ -18,7 +18,7 @@ const TAREFAS = [
   { k: "sol", Icone: Sun, titulo: "Tomou sol", cor: "bg-casco" },
 ];
 const HUMORES = [["feliz", "😄", "Feliz"], ["calmo", "😌", "Calmo"], ["sonolento", "😴", "Com sono"], ["estranho", "🤒", "Estranho"]];
-const VAZIO = { comeu: false, banho: false, sol: false, humor: "feliz", observacao: "", foto: null };
+const VAZIO = { comeu: false, banho: false, sol: false, humor: "feliz", observacao: "", foto: null, foto_tipo: null };
 
 function saudacao() {
   const h = new Date().getHours();
@@ -33,6 +33,7 @@ function MeuDia() {
   const [form, setForm] = useState(VAZIO);
   const [msg, setMsg] = useState("");
   const [erro, setErro] = useState("");
+  const [salvando, setSalvando] = useState(false);
 
   // últimos 7 dias: quais têm anotação
   const datas = new Set(atual.registros.map((r) => r.data));
@@ -58,7 +59,10 @@ function MeuDia() {
 
   const salvar = contextSafe(async (e) => {
     e.preventDefault();
+    if (salvando) return;
     setErro("");
+    setMsg("");
+    setSalvando(true);
     try {
       await registrar({ ...form, data: hoje() });
       const feitas = TAREFAS.filter((t) => form[t.k]).length;
@@ -66,7 +70,11 @@ function MeuDia() {
       setForm(VAZIO);
       festa();
       if (!semMovimento()) gsap.fromTo(".dia-jabuti", { y: 0 }, { y: -26, duration: 0.22, yoyo: true, repeat: 3 });
-    } catch (er) { setErro(er.message); }
+    } catch (er) {
+      setErro(er.message);
+    } finally {
+      setSalvando(false);
+    }
   });
 
   return (
@@ -95,6 +103,7 @@ function MeuDia() {
 
       <SoEditora aviso={`Só a tutora anota o dia de ${atual.nome}.`}>
       <form onSubmit={salvar} className="mt-8">
+        <fieldset disabled={salvando} className="min-w-0">
         <div className="grid grid-cols-3 gap-3">
           {TAREFAS.map(({ k, Icone, titulo, cor }) => (
             <button key={k} type="button" aria-pressed={form[k]} onClick={(e) => alternar(k, e.currentTarget)}
@@ -130,8 +139,12 @@ function MeuDia() {
           ) : <FotoInput className="mt-3" aoEscolher={(midia) => setForm((f) => ({ ...f, foto: midia.src, foto_tipo: midia.tipo }))} texto="Adicionar foto ou vídeo do dia" />}
         </div>
 
-        {erro && <p role="alert" className="mt-4 font-bold text-brasa">{erro}</p>}
-        <button className="botao mt-6 w-full text-2xl"><Save size={28} /> Salvar o dia</button>
+        {erro && <p role="alert" className="mt-4 rounded-2xl bg-brasa/15 p-3 font-bold text-brasa">{erro}</p>}
+        {salvando && <p role="status" aria-live="polite" className="mt-4 rounded-2xl bg-casco/20 p-3 text-center font-bold">Salvando o dia… só um instante!</p>}
+        <button className="botao mt-6 w-full rounded-[20px] text-base sm:text-lg" disabled={salvando} aria-busy={salvando}>
+          <Save size={24} /> {salvando ? "Salvando…" : "Salvar o dia"}
+        </button>
+        </fieldset>
       </form>
       </SoEditora>
       {msg && <p className="mt-6 rounded-blob bg-folha p-5 text-center text-2xl font-extrabold text-white" aria-live="polite">{msg}</p>}

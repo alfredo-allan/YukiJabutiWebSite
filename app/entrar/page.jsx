@@ -26,7 +26,9 @@ function Entrar() {
     } catch (er) { setErro(er.message); setEnviando(false); }
   }
 
-  if (editora === null) return null;
+  if (editora === null) {
+    return <p className="py-24 text-center text-2xl font-bold text-tinta/60" role="status" aria-live="polite">Conferindo sua sessão…</p>;
+  }
 
   return (
     <main className="mx-auto max-w-md px-5 py-10 text-center">

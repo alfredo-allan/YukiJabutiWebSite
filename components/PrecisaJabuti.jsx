@@ -23,7 +23,7 @@ export default function PrecisaJabuti({ children }) {
     );
   }
   if (carregando || !atual) {
-    return <p className="py-24 text-center text-2xl font-bold text-tinta/60" role="status">Chamando o jabuti… 🐢</p>;
+    return <p className="py-24 text-center text-2xl font-bold text-tinta/60" role="status" aria-live="polite">Carregando o diário… 🐢</p>;
   }
   return children;
 }

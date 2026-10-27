@@ -25,6 +25,7 @@ function Galeria() {
   const [editando, setEditando] = useState(null);
   const [legendaEditada, setLegendaEditada] = useState("");
   const [salvandoLegenda, setSalvandoLegenda] = useState(false);
+  const [apagandoId, setApagandoId] = useState(null);
   const fotos = atual.fotos || [];
 
   useEffect(() => {
@@ -75,12 +76,16 @@ function Galeria() {
   }
 
   async function apagar(f) {
+    if (apagandoId) return;
     if (!await confirmar({ titulo: "Apagar esta foto?", texto: "Essa lembrança vai sair da galeria.", textoConfirmar: "Apagar", textoCancelar: "Manter" })) return;
+    setApagandoId(f.id);
     try {
       await apagarFoto(f.id);
       await avisar({ titulo: "Foto apagada", texto: "A lembrança foi removida da galeria.", perigo: false });
     } catch (er) {
       avisar({ titulo: "Não consegui apagar", texto: er.message });
+    } finally {
+      setApagandoId(null);
     }
   }
 
@@ -178,7 +183,7 @@ function Galeria() {
                     {editora && (
                       <>
                       <button type="button" onClick={() => iniciarEdicao(f)} aria-label={`Editar ${f.legenda || "legenda"}`} className="flex min-w-0 min-h-10 items-center justify-center gap-1 rounded-xl border-2 border-folha/35 bg-fundo px-1 py-1.5 text-xs font-extrabold leading-none text-tinta shadow-[0_2px_0_rgb(var(--sombra-neutra)/0.22)] transition-colors hover:border-folha hover:bg-folha/15 focus-visible:border-folha disabled:opacity-50 sm:gap-1.5 sm:px-2 sm:text-sm"><Edit3 className="shrink-0" size={16} /> <span className="truncate">Editar</span></button>
-                      <button type="button" onClick={() => apagar(f)} aria-label={`Apagar ${f.legenda || "lembrança"}`} className="flex min-w-0 min-h-10 items-center justify-center gap-1 rounded-xl border-2 border-brasa/35 bg-fundo px-1 py-1.5 text-xs font-extrabold leading-none text-brasa shadow-[0_2px_0_rgb(var(--sombra-neutra)/0.22)] transition-colors hover:border-brasa hover:bg-brasa/15 focus-visible:border-brasa disabled:opacity-50 sm:gap-1.5 sm:px-2 sm:text-sm"><Trash2 className="shrink-0" size={16} /> <span className="truncate">Apagar</span></button>
+                      <button type="button" onClick={() => apagar(f)} disabled={apagandoId === f.id} aria-busy={apagandoId === f.id} aria-label={`Apagar ${f.legenda || "lembrança"}`} className="flex min-w-0 min-h-10 items-center justify-center gap-1 rounded-xl border-2 border-brasa/35 bg-fundo px-1 py-1.5 text-xs font-extrabold leading-none text-brasa shadow-[0_2px_0_rgb(var(--sombra-neutra)/0.22)] transition-colors hover:border-brasa hover:bg-brasa/15 focus-visible:border-brasa disabled:cursor-wait disabled:opacity-60 sm:gap-1.5 sm:px-2 sm:text-sm"><Trash2 className="shrink-0" size={16} /> <span className="truncate">{apagandoId === f.id ? "Apagando…" : "Apagar"}</span></button>
                       </>
                     )}
                   </div>
