@@ -24,7 +24,7 @@ export default function FotoInput({ aoEscolher, texto = "Tirar ou escolher foto 
   return (
     <div className={className}>
       <input ref={input} type="file" accept={somenteFoto ? "image/*" : "image/*,video/mp4,video/webm,video/quicktime"} capture="environment" className="sr-only" onChange={escolheu} tabIndex={-1} />
-      <button type="button" className="botao bg-folha" onClick={() => input.current.click()} disabled={ocupado}>
+      <button type="button" className="botao relative left-[-3%] w-[106%] max-w-[106%] rounded-[20px] px-3 text-center text-sm leading-tight whitespace-nowrap sm:left-0 sm:w-auto sm:max-w-full" onClick={() => input.current.click()} disabled={ocupado}>
         {ocupado ? <Camera size={26} /> : <><Camera size={26} /><Video size={22} /></>} {ocupado ? "Preparando a mídia…" : texto}
       </button>
       {erro && <p role="alert" className="mt-2 font-bold text-brasa">{erro}</p>}

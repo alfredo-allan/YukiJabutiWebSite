@@ -13,8 +13,8 @@
   --cartao: 255 255 255;
   --brasa: 214 72 43;
   --agua: 56 150 200;
-  --sombra-acao: 67 92 44;
-  --sombra-neutra: 40 48 30;
+  --sombra-acao: 110 68 38;
+  --sombra-neutra: 180 120 30;
   color-scheme: light;
 }
 .dark {
@@ -27,8 +27,8 @@
   --cartao: 29 54 39;
   --brasa: 245 112 82;
   --agua: 110 190 235;
-  --sombra-acao: 0 0 0;
-  --sombra-neutra: 0 0 0;
+  --sombra-acao: 200 146 102;
+  --sombra-neutra: 240 186 74;
   color-scheme: dark;
 }
 

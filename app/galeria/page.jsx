@@ -174,11 +174,11 @@ function Galeria() {
                     {f.legenda && <p className="text-lg font-bold leading-tight">{f.legenda}</p>}
                   </div>
                   {f.data && <p className="mt-1 text-sm font-semibold text-tinta/60">{dataBR(f.data, { day: "numeric", month: "long", year: "numeric" })}</p>}
-                  <div className="mt-auto flex h-[3.5rem] items-end gap-2 border-t-2 border-tinta/10 pt-2">
+                  <div className="mt-auto grid h-[3.5rem] min-w-0 grid-cols-2 items-end gap-1.5 border-t-2 border-tinta/10 pt-2 sm:gap-2">
                     {editora && (
                       <>
-                      <button type="button" onClick={() => iniciarEdicao(f)} aria-label={`Editar ${f.legenda || "legenda"}`} className="flex min-h-10 flex-1 items-center justify-center gap-1.5 rounded-xl border-2 border-folha/35 bg-fundo px-2 py-1.5 text-sm font-extrabold text-tinta shadow-[0_2px_0_rgb(var(--sombra-neutra)/0.22)] transition-colors hover:border-folha hover:bg-folha/15 focus-visible:border-folha disabled:opacity-50"><Edit3 size={16} /> <span>Editar</span></button>
-                      <button type="button" onClick={() => apagar(f)} aria-label={`Apagar ${f.legenda || "lembrança"}`} className="flex min-h-10 flex-1 items-center justify-center gap-1.5 rounded-xl border-2 border-brasa/35 bg-fundo px-2 py-1.5 text-sm font-extrabold text-brasa shadow-[0_2px_0_rgb(var(--sombra-neutra)/0.22)] transition-colors hover:border-brasa hover:bg-brasa/15 focus-visible:border-brasa disabled:opacity-50"><Trash2 size={16} /> <span>Apagar</span></button>
+                      <button type="button" onClick={() => iniciarEdicao(f)} aria-label={`Editar ${f.legenda || "legenda"}`} className="flex min-w-0 min-h-10 items-center justify-center gap-1 rounded-xl border-2 border-folha/35 bg-fundo px-1 py-1.5 text-xs font-extrabold leading-none text-tinta shadow-[0_2px_0_rgb(var(--sombra-neutra)/0.22)] transition-colors hover:border-folha hover:bg-folha/15 focus-visible:border-folha disabled:opacity-50 sm:gap-1.5 sm:px-2 sm:text-sm"><Edit3 className="shrink-0" size={16} /> <span className="truncate">Editar</span></button>
+                      <button type="button" onClick={() => apagar(f)} aria-label={`Apagar ${f.legenda || "lembrança"}`} className="flex min-w-0 min-h-10 items-center justify-center gap-1 rounded-xl border-2 border-brasa/35 bg-fundo px-1 py-1.5 text-xs font-extrabold leading-none text-brasa shadow-[0_2px_0_rgb(var(--sombra-neutra)/0.22)] transition-colors hover:border-brasa hover:bg-brasa/15 focus-visible:border-brasa disabled:opacity-50 sm:gap-1.5 sm:px-2 sm:text-sm"><Trash2 className="shrink-0" size={16} /> <span className="truncate">Apagar</span></button>
                       </>
                     )}
                   </div>
