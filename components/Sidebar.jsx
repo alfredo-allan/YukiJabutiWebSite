@@ -2,7 +2,7 @@
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, CalendarHeart, TrendingUp, IdCard, Settings, X, Moon, Sun, Plus, KeyRound, LogOut } from "lucide-react";
+import { BookOpen, CalendarHeart, TrendingUp, IdCard, Images, Settings, X, Moon, Sun, Plus, KeyRound, LogOut } from "lucide-react";
 import { gsap, useGSAP, semMovimento } from "@/lib/gsap";
 import { useTema } from "./ThemeProvider";
 import { useJabuti } from "./JabutiProvider";
@@ -13,6 +13,7 @@ export const ITENS_MENU = [
   { href: "/meu-dia", titulo: "Meu dia", sub: "Comeu? Tomou sol? Anote aqui", Icone: CalendarHeart, cor: "bg-brasa" },
   { href: "/crescimento", titulo: "Crescimento", sub: "Peso, tamanho e gráfico", Icone: TrendingUp, cor: "bg-agua" },
   { href: "/carteirinha", titulo: "Carteirinha", sub: "O registro com a foto", Icone: IdCard, cor: "bg-casco" },
+  { href: "/galeria", titulo: "Galeria", sub: "Momentos do seu jabuti", Icone: Images, cor: "bg-terra" },
   { href: "/ajustes", titulo: "Ajustes", sub: "Nome, espécie e tema", Icone: Settings, cor: "bg-terra" },
 ];
 

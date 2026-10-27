@@ -11,6 +11,7 @@ A API fica em outro repositório (`yukijabuti-backend`, no PythonAnywhere).
 | Meu dia | `/meu-dia` | Comeu / banho / sol, humor, recadinho e sequência da semana |
 | Crescimento | `/crescimento` | Medir peso e casco, comparação com objetos, gráfico e tabela |
 | Carteirinha | `/carteirinha` | Carteira de registro com foto, frente e verso |
+| Galeria | `/galeria` | Fotos e lembranças do jabuti |
 | Ajustes | `/ajustes` | Nome, espécie, sexo, datas, microchip e tema |
 | Boas-vindas | `/bem-vindo` | Primeiro acesso em 3 passos (abre sozinho se não houver jabuti) |
 

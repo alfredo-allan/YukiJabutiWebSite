@@ -1,6 +1,6 @@
 "use client";
 import { useRef, useState } from "react";
-import { Salad, Droplets, Sun, Trash2, Save, Check } from "lucide-react";
+import { Salad, Droplets, Sun, Trash2, Save, Check, X } from "lucide-react";
 import { gsap, useGSAP, semMovimento } from "@/lib/gsap";
 import { useJabuti } from "@/components/JabutiProvider";
 import PrecisaJabuti from "@/components/PrecisaJabuti";
@@ -9,6 +9,7 @@ import Tortoise from "@/components/Tortoise";
 import { useConfirmacao, useAviso } from "@/components/Confirmacao";
 import { festa } from "@/lib/festa";
 import { dataBR, hoje } from "@/lib/datas";
+import FotoInput from "@/components/FotoInput";
 
 const TAREFAS = [
   { k: "comeu", Icone: Salad, titulo: "Comeu", cor: "bg-folha" },
@@ -16,7 +17,7 @@ const TAREFAS = [
   { k: "sol", Icone: Sun, titulo: "Tomou sol", cor: "bg-casco" },
 ];
 const HUMORES = [["feliz", "😄", "Feliz"], ["calmo", "😌", "Calmo"], ["sonolento", "😴", "Com sono"], ["estranho", "🤒", "Estranho"]];
-const VAZIO = { comeu: false, banho: false, sol: false, humor: "feliz", observacao: "" };
+const VAZIO = { comeu: false, banho: false, sol: false, humor: "feliz", observacao: "", foto: null };
 
 function saudacao() {
   const h = new Date().getHours();
@@ -118,6 +119,16 @@ function MeuDia() {
           <textarea className="campo mt-2" rows={2} maxLength={300} value={form.observacao} onChange={(e) => setForm({ ...form, observacao: e.target.value })} placeholder="Hoje ela comeu flor de hibisco!" />
         </label>
 
+        <div className="mt-8">
+          <p className="rotulo">Foto do dia <span className="font-semibold text-tinta/55">(opcional)</span></p>
+          {form.foto ? (
+            <div className="mt-3 flex items-start gap-3">
+              <img src={form.foto} alt="Prévia da foto do dia" className="h-28 w-28 rounded-2xl border-4 border-casco object-cover" />
+              <button type="button" onClick={() => setForm({ ...form, foto: null })} className="botao-sec min-h-11 px-4 py-2 text-base"><X size={20} /> Tirar foto</button>
+            </div>
+          ) : <FotoInput className="mt-3" aoEscolher={(foto) => setForm((f) => ({ ...f, foto }))} texto="Adicionar foto do dia" />}
+        </div>
+
         {erro && <p role="alert" className="mt-4 font-bold text-brasa">{erro}</p>}
         <button className="botao mt-6 w-full text-2xl"><Save size={28} /> Salvar o dia</button>
       </form>
@@ -130,13 +141,14 @@ function MeuDia() {
         <ul className="mt-4 space-y-3">
           {[...atual.registros].reverse().slice(0, 14).map((r) => (
             <li key={r.id} className="flex items-start justify-between gap-3 rounded-2xl bg-cartao p-4 text-lg">
-              <div>
+              <div className="min-w-0">
                 <p className="font-extrabold first-letter:uppercase">{dataBR(r.data, { weekday: "long", day: "numeric", month: "long" })} {HUMORES.find(([h]) => h === r.humor)?.[1]}</p>
                 <p className="flex flex-wrap gap-x-3 text-tinta/80">
                   {r.comeu && <span>🥬 comeu</span>}{r.banho && <span>💧 banho</span>}{r.sol && <span>☀️ sol</span>}
                   {r.peso_g != null && <span>⚖️ {r.peso_g} g</span>}{r.comprimento_cm != null && <span>📏 {r.comprimento_cm} cm</span>}
                 </p>
                 {r.observacao && <p className="text-tinta/75">“{r.observacao}”</p>}
+                {r.foto && <img src={r.foto} alt={`Foto de ${atual.nome} em ${dataBR(r.data)}`} className="mt-3 h-32 w-32 rounded-2xl border-4 border-casco object-cover" />}
               </div>
               {editora && (
                 <button onClick={async () => {
