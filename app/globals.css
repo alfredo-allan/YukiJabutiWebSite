@@ -13,6 +13,8 @@
   --cartao: 255 255 255;
   --brasa: 214 72 43;
   --agua: 56 150 200;
+  --sombra-acao: 67 92 44;
+  --sombra-neutra: 40 48 30;
   color-scheme: light;
 }
 .dark {
@@ -25,6 +27,8 @@
   --cartao: 29 54 39;
   --brasa: 245 112 82;
   --agua: 110 190 235;
+  --sombra-acao: 0 0 0;
+  --sombra-neutra: 0 0 0;
   color-scheme: dark;
 }
 
@@ -34,11 +38,11 @@ body { @apply bg-fundo text-tinta font-sans antialiased; }
 @layer components {
   .botao {
     @apply inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full bg-folha px-6 py-3 text-lg font-bold text-white
-           shadow-[0_5px_0_rgb(var(--terra))] transition-transform active:translate-y-1 active:shadow-[0_1px_0_rgb(var(--terra))]
+           shadow-[0_5px_0_rgb(var(--sombra-acao)/0.75)] transition-transform active:translate-y-1 active:shadow-[0_1px_0_rgb(var(--sombra-acao)/0.75)]
            disabled:opacity-50;
   }
   .botao-sec {
-    @apply botao bg-cartao text-tinta shadow-[0_5px_0_rgb(var(--tinta)/0.2)];
+    @apply botao bg-cartao text-tinta shadow-[0_5px_0_rgb(var(--sombra-neutra)/0.2)];
   }
   .campo {
     @apply w-full rounded-2xl border-4 border-folha/30 bg-cartao px-4 py-3 text-xl font-semibold text-tinta

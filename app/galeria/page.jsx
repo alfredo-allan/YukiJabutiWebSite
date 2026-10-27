@@ -177,8 +177,8 @@ function Galeria() {
                   <div className="mt-auto flex h-[3.5rem] items-end gap-2 border-t-2 border-tinta/10 pt-2">
                     {editora && (
                       <>
-                      <button type="button" onClick={() => iniciarEdicao(f)} aria-label={`Editar ${f.legenda || "legenda"}`} className="botao-sec min-h-10 flex-1 px-2 py-2 text-sm shadow-[0_3px_0_rgb(var(--tinta)/0.2)]"><Edit3 size={17} /> Editar</button>
-                      <button type="button" onClick={() => apagar(f)} aria-label={`Apagar ${f.legenda || "lembrança"}`} className="botao-sec min-h-10 flex-1 px-2 py-2 text-sm text-brasa shadow-[0_3px_0_rgb(var(--tinta)/0.2)] hover:bg-brasa/15"><Trash2 size={17} /> Apagar</button>
+                      <button type="button" onClick={() => iniciarEdicao(f)} aria-label={`Editar ${f.legenda || "legenda"}`} className="flex min-h-10 flex-1 items-center justify-center gap-1.5 rounded-xl border-2 border-folha/35 bg-fundo px-2 py-1.5 text-sm font-extrabold text-tinta shadow-[0_2px_0_rgb(var(--sombra-neutra)/0.22)] transition-colors hover:border-folha hover:bg-folha/15 focus-visible:border-folha disabled:opacity-50"><Edit3 size={16} /> <span>Editar</span></button>
+                      <button type="button" onClick={() => apagar(f)} aria-label={`Apagar ${f.legenda || "lembrança"}`} className="flex min-h-10 flex-1 items-center justify-center gap-1.5 rounded-xl border-2 border-brasa/35 bg-fundo px-2 py-1.5 text-sm font-extrabold text-brasa shadow-[0_2px_0_rgb(var(--sombra-neutra)/0.22)] transition-colors hover:border-brasa hover:bg-brasa/15 focus-visible:border-brasa disabled:opacity-50"><Trash2 size={16} /> <span>Apagar</span></button>
                       </>
                     )}
                   </div>

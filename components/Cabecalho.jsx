@@ -17,7 +17,7 @@ export default function Cabecalho() {
       <header className="sticky top-0 z-40 bg-fundo/85 backdrop-blur" style={{ paddingTop: "env(safe-area-inset-top)" }}>
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-2">
           <button ref={botao} onClick={() => setAberto(true)} aria-label="Abrir menu" aria-expanded={aberto}
-            className="flex h-14 items-center gap-2 rounded-full bg-folha px-4 text-lg font-extrabold text-white shadow-[0_4px_0_rgb(var(--terra))] active:translate-y-1 active:shadow-none">
+            className="flex h-14 items-center gap-2 rounded-full bg-folha px-4 text-lg font-extrabold text-white shadow-[0_4px_0_rgb(var(--sombra-acao)/0.75)] active:translate-y-1 active:shadow-none">
             <Menu size={28} strokeWidth={3} /> Menu
           </button>
           <Link href="/carteirinha" className="flex items-center gap-2 rounded-full py-1 pl-3 pr-1 font-extrabold hover:bg-cartao">
